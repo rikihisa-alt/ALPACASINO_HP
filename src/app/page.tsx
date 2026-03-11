@@ -1,15 +1,13 @@
+import { HeroSection } from "@/components/sections/HeroSection";
+import { FeaturesSection } from "@/components/sections/FeaturesSection";
+import { InfoSection } from "@/components/sections/InfoSection";
+
 export default function Home() {
   return (
-    <main
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        minHeight: "100vh",
-        fontFamily: "sans-serif",
-      }}
-    >
-      <h1>Alpacasino</h1>
-    </main>
+    <>
+      <HeroSection />
+      <FeaturesSection />
+      <InfoSection />
+    </>
   );
 }

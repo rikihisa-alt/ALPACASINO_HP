@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+@theme {
+  /* Primary — コーラルピンク */
+  --color-primary: #FF6B8A;
+  --color-primary-light: #FF8FA8;
+  --color-primary-dark: #E5456A;
+
+  /* Secondary — ネイビー */
+  --color-secondary: #1B2A4A;
+  --color-secondary-light: #2D4066;
+  --color-secondary-dark: #111D35;
+
+  /* Accent — ゴールド */
+  --color-accent: #F5C842;
+  --color-accent-light: #FFD966;
+  --color-accent-dark: #D4A832;
+
+  /* Background */
+  --color-bg-light: #FFF8F0;
+  --color-bg-cream: #FFF3E8;
+  --color-bg-dark: #1B2A4A;
+
+  /* Text */
+  --color-text-primary: #2D2D2D;
+  --color-text-secondary: #666666;
+  --color-text-light: #FFFFFF;
+  --color-text-muted: #999999;
+
+  /* Suits */
+  --color-suit-red: #E5456A;
+  --color-suit-black: #1B2A4A;
+
+  /* Font family */
+  --font-sans: "Zen Maru Gothic", sans-serif;
+  --font-display: "Fredoka", sans-serif;
+}
+
+/* Base styles */
+body {
+  color: var(--color-text-primary);
+  background-color: var(--color-bg-light);
+  font-family: var(--font-sans);
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Selection color */
+::selection {
+  background-color: var(--color-primary-light);
+  color: white;
+}
