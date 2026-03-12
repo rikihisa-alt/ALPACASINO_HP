@@ -1,11 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PageHero } from "@/components/ui/PageHero";
-import { SectionTitle } from "@/components/ui/SectionTitle";
-import { AnimatedCard } from "@/components/ui/AnimatedCard";
-import { CTAButton } from "@/components/ui/CTAButton";
+import { StorySection } from "@/components/ui/StorySection";
+import { ChapterHeading } from "@/components/ui/ChapterHeading";
+import { ContentCard } from "@/components/ui/ContentCard";
+import { StoryButton } from "@/components/ui/StoryButton";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { WaveDivider } from "@/components/ui/WaveDivider";
 import { EXTERNAL_LINKS } from "@/lib/constants";
+import { springConfigs, exponentialStagger } from "@/lib/animations";
 
 const challenges = [
   { emoji: "📋", title: "許認可", description: "風営法の許可申請、必要書類の準備に不安がある。" },
@@ -19,57 +22,124 @@ const challenges = [
 export function KaigyouContent() {
   return (
     <>
-      <PageHero
-        enTitle="BUSINESS SUPPORT"
-        title="開業サポート"
-        subtitle="アミューズメントカジノの開業に関するお悩みを、SET UP CASINOが解決します。"
-      />
-
-      {/* Challenges */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-4xl px-4">
-          <SectionTitle
-            enTitle="CHALLENGES"
-            title="こんなお悩みはありませんか？"
-            subtitle="アミューズメントカジノ開業には多くの課題があります。"
-          />
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {challenges.map((item, i) => (
-              <AnimatedCard key={i} delay={i * 0.08} className="p-6">
-                <span className="text-3xl block mb-3">{item.emoji}</span>
-                <h3 className="text-base font-bold text-secondary mb-1">{item.title}</h3>
-                <p className="text-sm text-text-secondary">{item.description}</p>
-              </AnimatedCard>
-            ))}
-          </div>
+      {/* Opening — 設計図スタイル */}
+      <section className="relative min-h-[60vh] flex items-center bg-cream overflow-hidden pt-20">
+        <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-8 py-16 md:py-24">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
+          >
+            <span className="font-handwritten text-gold text-lg">Business</span>
+            <h1 className="font-display-en font-black text-deep leading-[0.9] mt-2" style={{ fontSize: "clamp(2rem, 7vw, 5rem)" }}>
+              BUSINESS
+              <br />
+              SUPPORT
+            </h1>
+            <p className="font-display-jp text-cocoa mt-3" style={{ fontSize: "clamp(1rem, 2.5vw, 1.5rem)" }}>開業サポート</p>
+            <p className="text-cocoa-sub mt-4 max-w-lg leading-relaxed">
+              アミューズメントカジノの開業に関するお悩みを、SET UP CASINOが解決します。
+            </p>
+          </motion.div>
+        </div>
+        {/* 設計図風装飾 */}
+        <div className="absolute right-[5%] top-[20%] hidden lg:block" aria-hidden="true">
+          <motion.svg
+            width="200"
+            height="200"
+            viewBox="0 0 200 200"
+            className="opacity-[0.08]"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
+            transition={{ duration: 2, delay: 0.5 }}
+          >
+            <motion.rect
+              x="20"
+              y="20"
+              width="160"
+              height="160"
+              fill="none"
+              stroke="var(--color-deep)"
+              strokeWidth="1"
+              strokeDasharray="4 4"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 2, delay: 0.5 }}
+            />
+            <motion.line
+              x1="20"
+              y1="100"
+              x2="180"
+              y2="100"
+              stroke="var(--color-deep)"
+              strokeWidth="0.5"
+              strokeDasharray="4 4"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 1.5, delay: 1 }}
+            />
+            <motion.line
+              x1="100"
+              y1="20"
+              x2="100"
+              y2="180"
+              stroke="var(--color-deep)"
+              strokeWidth="0.5"
+              strokeDasharray="4 4"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 1.5, delay: 1.2 }}
+            />
+          </motion.svg>
         </div>
       </section>
 
+      {/* Challenges — 散らばったカード */}
+      <WaveDivider variant="suitBorder" fillColor="var(--color-paper)" bgColor="var(--color-cream)" />
+      <StorySection bg="paper" layout="staggered">
+        <ChapterHeading titleEn="CHALLENGES" titleJp="こんなお悩みはありませんか？" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          {challenges.map((item, i) => {
+            const variants: Array<"tilted" | "torn" | "stacked" | "polaroid" | "plain" | "tilted"> = ["tilted", "torn", "stacked", "polaroid", "tilted", "torn"];
+            const tilts = [-2, 1.5, -1, 2.5, 1, -1.5];
+            const offsets = [0, 16, 0, 20, 8, 0];
+            return (
+              <motion.div
+                key={item.title}
+                style={{ marginTop: offsets[i] }}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: exponentialStagger(i, 0.08), ...springConfigs.gentle }}
+              >
+                <ContentCard variant={variants[i]} tiltDegree={tilts[i]}>
+                  <span className="text-3xl block mb-3">{item.emoji}</span>
+                  <h3 className="font-display-jp text-base text-cocoa mb-1">{item.title}</h3>
+                  <p className="text-sm text-cocoa-sub leading-relaxed">{item.description}</p>
+                </ContentCard>
+              </motion.div>
+            );
+          })}
+        </div>
+      </StorySection>
+
       {/* SET UP CASINO */}
-      <section className="py-20 bg-bg-light">
-        <div className="mx-auto max-w-4xl px-4">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" as const }}
-            className="text-center p-8 sm:p-12 rounded-3xl bg-white border border-primary/10 shadow-sm"
-          >
-            <p className="font-display text-sm font-semibold tracking-widest text-primary mb-3">
-              SOLUTION
-            </p>
-            <h3 className="font-display text-2xl sm:text-3xl font-bold text-secondary">
+      <WaveDivider variant="wave" fillColor="var(--color-deep)" bgColor="var(--color-paper)" />
+      <section className="bg-deep py-20 md:py-28">
+        <div className="max-w-3xl mx-auto px-5 text-center">
+          <ScrollReveal type="clipCircle">
+            <span className="font-handwritten text-gold text-lg block mb-3">Solution</span>
+            <h2 className="font-display-en font-black text-paper" style={{ fontSize: "clamp(2rem, 6vw, 4rem)" }}>
               SET UP CASINO
-            </h3>
-            <p className="mt-4 text-text-secondary leading-relaxed max-w-lg mx-auto">
-              アルパカジノの運営ノウハウを活かし、
-              アミューズメントカジノの開業をトータルサポート。
+            </h2>
+            <p className="text-paper/70 mt-4 leading-relaxed max-w-lg mx-auto">
+              アルパカジノの運営ノウハウを活かし、アミューズメントカジノの開業をトータルサポート。
               許認可から集客まで、すべてお任せください。
             </p>
-            <div className="mt-8">
-              <CTAButton href={EXTERNAL_LINKS.setupCasino} label="SET UP CASINO を見る" variant="primary" external />
+            <div className="mt-10">
+              <StoryButton href={EXTERNAL_LINKS.setupCasino} label="SET UP CASINO を見る" variant="primary" external icon="🚀" size="lg" />
             </div>
-          </motion.div>
+          </ScrollReveal>
         </div>
       </section>
     </>

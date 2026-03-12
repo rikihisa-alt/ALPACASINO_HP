@@ -1,43 +1,44 @@
 /**
- * アルパカジノ カラーパレット
- * ポップで可愛い × カジノの高級感を両立させた配色
+ * アルパカジノ カラーパレット — "Storybook Casino"
+ * 絵本のような暖かみ × カジノの深み
  */
 export const colors = {
-  /** メインカラー — あたたかみのあるコーラルピンク */
-  primary: "#FF6B8A",
-  primaryLight: "#FF8FA8",
-  primaryDark: "#E5456A",
+  /** メイン背景 — 絵本の紙のようなクリーム */
+  cream: "#F2E6D0",
+  /** 明るい紙 */
+  paper: "#FAF5ED",
+  /** 中間の紙 */
+  paperMid: "#EDE3D3",
 
-  /** サブカラー — 深みのあるネイビー（カジノらしさ） */
-  secondary: "#1B2A4A",
-  secondaryLight: "#2D4066",
-  secondaryDark: "#111D35",
+  /** 深い色 — ミッドナイトグリーン（カジノの夜） */
+  deep: "#1A3A3A",
+  deepLight: "#244848",
+  deepDark: "#122C2C",
 
-  /** アクセント — ゴールド（チップ・高級感） */
-  accent: "#F5C842",
-  accentLight: "#FFD966",
-  accentDark: "#D4A832",
+  /** アクセント — テラコッタローズ（CTA・エネルギー） */
+  rose: "#D4654A",
+  roseLight: "#E07D65",
+  roseDark: "#B8523B",
 
-  /** 背景色 */
-  bgLight: "#FFF8F0",
-  bgCream: "#FFF3E8",
-  bgDark: "#1B2A4A",
+  /** ハイライト — アンティークゴールド（チップ・装飾） */
+  gold: "#C9A84C",
+  goldLight: "#D9BE6E",
+  goldDark: "#A88B3A",
 
-  /** テキスト */
-  textPrimary: "#2D2D2D",
-  textSecondary: "#666666",
-  textLight: "#FFFFFF",
-  textMuted: "#999999",
+  /** テキスト — ココア（暖かみのあるダーク） */
+  cocoa: "#2A1F1A",
+  cocoaSub: "#6B5E52",
+  cocoaMuted: "#9C8E80",
+
+  /** テキスト白 */
+  textLight: "#FAF5ED",
 
   /** トランプスーツ */
-  suitRed: "#E5456A",
-  suitBlack: "#1B2A4A",
+  suitRed: "#D4654A",
+  suitBlack: "#1A3A3A",
 
-  /** ステータス */
-  success: "#4CAF50",
-  warning: "#FF9800",
-  error: "#F44336",
-  info: "#2196F3",
+  /** LINE */
+  line: "#06C755",
 } as const;
 
 export type ColorKey = keyof typeof colors;

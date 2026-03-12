@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Zen_Maru_Gothic, Fredoka } from "next/font/google";
+import { Zen_Maru_Gothic, Dela_Gothic_One, Fraunces, Caveat } from "next/font/google";
 import { Header, Footer } from "@/components/layout";
 import "./globals.css";
 
@@ -10,10 +10,24 @@ const zenMaruGothic = Zen_Maru_Gothic({
   display: "swap",
 });
 
-const fredoka = Fredoka({
+const delaGothicOne = Dela_Gothic_One({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-fredoka",
+  weight: "400",
+  variable: "--font-dela",
+  display: "swap",
+});
+
+const fraunces = Fraunces({
+  subsets: ["latin"],
+  weight: ["400", "700", "900"],
+  variable: "--font-fraunces",
+  display: "swap",
+});
+
+const caveat = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-caveat",
   display: "swap",
 });
 
@@ -48,10 +62,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja" className={`${zenMaruGothic.variable} ${fredoka.variable}`}>
-      <body className="font-sans antialiased">
+    <html
+      lang="ja"
+      className={`${zenMaruGothic.variable} ${delaGothicOne.variable} ${fraunces.variable} ${caveat.variable}`}
+    >
+      <body className="font-body antialiased">
         <Header />
-        <main className="pt-16">{children}</main>
+        <main>{children}</main>
         <Footer />
       </body>
     </html>

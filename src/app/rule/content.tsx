@@ -1,13 +1,13 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PageHero } from "@/components/ui/PageHero";
+import { StorySection } from "@/components/ui/StorySection";
+import { ContentCard } from "@/components/ui/ContentCard";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { WaveDivider } from "@/components/ui/WaveDivider";
+import { exponentialStagger, springConfigs } from "@/lib/animations";
 
-type RuleCategory = {
-  title: string;
-  emoji: string;
-  rules: string[];
-};
+type RuleCategory = { title: string; emoji: string; rules: string[] };
 
 const ruleCategories: RuleCategory[] = [
   {
@@ -25,7 +25,7 @@ const ruleCategories: RuleCategory[] = [
     emoji: "🃏",
     rules: [
       "ゲーム中のスマートフォン使用はご遠慮ください",
-      "テーブルでの通話はお控えください（ロビーをご利用ください）",
+      "テーブルでの通話はお控えください",
       "チップはテーブル上で見えるように置いてください",
       "アクションは口頭で明確に宣言してください",
     ],
@@ -51,59 +51,84 @@ const ruleCategories: RuleCategory[] = [
   },
 ];
 
+const suitIcons = ["♠", "♥", "♦", "♣"];
+
 export function RuleContent() {
   return (
     <>
-      <PageHero
-        enTitle="HOUSE RULES"
-        title="ハウスルール"
-        subtitle="みなさまに快適に楽しんでいただくためのルールです。"
-      />
-
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-4xl px-4">
-          <div className="space-y-10">
-            {ruleCategories.map((category, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-60px" }}
-                transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" as const }}
-                className="p-6 sm:p-8 rounded-2xl bg-bg-light border border-primary/5"
-              >
-                <div className="flex items-center gap-3 mb-5">
-                  <span className="text-3xl">{category.emoji}</span>
-                  <h3 className="font-display text-xl font-bold text-secondary">{category.title}</h3>
-                </div>
-                <ul className="space-y-3">
-                  {category.rules.map((rule, j) => (
-                    <li key={j} className="flex items-start gap-3 text-sm text-text-secondary">
-                      <span className="text-primary mt-0.5 flex-shrink-0">♦</span>
-                      <span>{rule}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
+      {/* Opening — 巻物/羊皮紙風 */}
+      <section className="relative min-h-[50vh] flex items-center bg-cream overflow-hidden pt-20">
+        <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-8 py-16 md:py-24">
+          <motion.div
+            initial={{ opacity: 0, scaleY: 0.8, originY: 0 }}
+            animate={{ opacity: 1, scaleY: 1 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
+          >
+            <span className="font-handwritten text-gold text-lg">Rules</span>
+            <h1 className="font-display-en font-black text-deep leading-[0.9] mt-2" style={{ fontSize: "clamp(2.5rem, 8vw, 6rem)" }}>
+              HOUSE RULES
+            </h1>
+            <p className="font-display-jp text-cocoa mt-3" style={{ fontSize: "clamp(1rem, 2.5vw, 1.5rem)" }}>ハウスルール</p>
+            <p className="text-cocoa-sub mt-4 max-w-lg leading-relaxed">
+              みなさまに快適に楽しんでいただくためのルールです。
+            </p>
+          </motion.div>
         </div>
       </section>
 
+      {/* Rules — 各カテゴリ異なるバリアント */}
+      <WaveDivider variant="tornPaper" fillColor="var(--color-paper)" bgColor="var(--color-cream)" />
+      <StorySection bg="paper" layout="staggered">
+        <div className="space-y-8 md:space-y-10">
+          {ruleCategories.map((category, i) => {
+            const variants: Array<"stacked" | "tilted" | "torn" | "plain"> = ["stacked", "tilted", "torn", "plain"];
+            const tilts = [0, -2, 1.5, 0];
+            const marginLeft = [0, "5%", 0, "3%"];
+            return (
+              <motion.div
+                key={category.title}
+                style={{ marginLeft: marginLeft[i] }}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ delay: exponentialStagger(i, 0.1), ...springConfigs.gentle }}
+              >
+                <ContentCard variant={variants[i]} tiltDegree={tilts[i]}>
+                  <div className="flex items-center gap-3 mb-5">
+                    <span className="text-3xl">{category.emoji}</span>
+                    <h3 className="font-display-jp text-lg md:text-xl text-cocoa">{category.title}</h3>
+                  </div>
+                  <ul className="space-y-3">
+                    {category.rules.map((rule, j) => (
+                      <li key={j} className="flex items-start gap-3 text-sm text-cocoa-sub">
+                        <span
+                          className="mt-0.5 flex-shrink-0 text-sm"
+                          style={{ color: j % 2 === 0 ? "var(--color-rose)" : "var(--color-deep)" }}
+                        >
+                          {suitIcons[j % 4]}
+                        </span>
+                        <span>{rule}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </ContentCard>
+              </motion.div>
+            );
+          })}
+        </div>
+      </StorySection>
+
       {/* Note */}
-      <section className="py-16 bg-bg-cream">
-        <div className="mx-auto max-w-3xl px-4 text-center">
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-sm text-text-secondary leading-relaxed"
-          >
-            ルールを守って楽しい時間を過ごしましょう！
-            <br />
-            ご不明な点はスタッフにお気軽にお尋ねください。
-          </motion.p>
+      <WaveDivider variant="wave" fillColor="var(--color-cream)" bgColor="var(--color-paper)" />
+      <section className="bg-cream py-12">
+        <div className="max-w-3xl mx-auto px-5 text-center">
+          <ScrollReveal type="riseUp">
+            <p className="text-sm text-cocoa-sub leading-relaxed">
+              ルールを守って楽しい時間を過ごしましょう！
+              <br />
+              ご不明な点はスタッフにお気軽にお尋ねください。
+            </p>
+          </ScrollReveal>
         </div>
       </section>
     </>

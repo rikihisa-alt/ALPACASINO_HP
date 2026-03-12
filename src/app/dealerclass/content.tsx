@@ -1,23 +1,20 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { PageHero } from "@/components/ui/PageHero";
-import { SectionTitle } from "@/components/ui/SectionTitle";
-import { AnimatedCard } from "@/components/ui/AnimatedCard";
-import { CTAButton } from "@/components/ui/CTAButton";
+import { StorySection } from "@/components/ui/StorySection";
+import { ChapterHeading } from "@/components/ui/ChapterHeading";
+import { ContentCard } from "@/components/ui/ContentCard";
+import { StoryButton } from "@/components/ui/StoryButton";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { WaveDivider } from "@/components/ui/WaveDivider";
+import { CardSuitScatter } from "@/components/decorative/CardSuitScatter";
 import { SNS_LINKS } from "@/lib/constants";
+import { springConfigs, exponentialStagger } from "@/lib/animations";
 
-type Course = {
-  name: string;
-  price: string;
-  duration: string;
-  emoji: string;
-};
-
-const courses: Course[] = [
-  { name: "テキサスホールデム", price: "¥55,000", duration: "目安15時間", emoji: "🃏" },
-  { name: "ブラックジャック", price: "¥45,000", duration: "目安10時間", emoji: "🂡" },
-  { name: "バカラ", price: "¥45,000", duration: "目安10時間", emoji: "🎴" },
+const courses = [
+  { name: "テキサスホールデム", price: "¥55,000", duration: "目安15時間", emoji: "🃏", tilt: -3 },
+  { name: "ブラックジャック", price: "¥45,000", duration: "目安10時間", emoji: "🂡", tilt: 2 },
+  { name: "バカラ", price: "¥45,000", duration: "目安10時間", emoji: "🎴", tilt: -1.5 },
 ];
 
 const discounts = [
@@ -28,94 +25,117 @@ const discounts = [
 export function DealerClassContent() {
   return (
     <>
-      <PageHero
-        enTitle="DEALER LESSON"
-        title="ディーラーレッスン"
-        subtitle="プロのディーラースキルを基礎から学べます。初回1時間無料体験あり。"
-      />
+      {/* Opening — カードが扇状展開 */}
+      <section className="relative min-h-[60vh] flex items-center bg-cream overflow-hidden pt-20">
+        <CardSuitScatter />
+        <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-8 py-16 md:py-24">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
+          >
+            <span className="font-handwritten text-gold text-lg">Dealer Lesson</span>
+            <h1 className="font-display-en font-black text-deep leading-[0.9] mt-2" style={{ fontSize: "clamp(2.5rem, 8vw, 6rem)" }}>
+              DEALER
+            </h1>
+            <p className="font-display-jp text-cocoa mt-3" style={{ fontSize: "clamp(1rem, 2.5vw, 1.5rem)" }}>ディーラーレッスン</p>
+            <p className="text-cocoa-sub mt-4 max-w-lg leading-relaxed">プロのディーラースキルを基礎から学べます。初回1時間無料体験あり。</p>
+          </motion.div>
+        </div>
+        {/* 扇状カード装飾 */}
+        <div className="absolute right-[5%] top-[30%] hidden lg:flex gap-0">
+          {["-20deg", "-5deg", "10deg", "25deg"].map((rot, i) => (
+            <motion.div
+              key={i}
+              className="w-12 h-16 bg-paper border-2 border-cream absolute origin-bottom"
+              style={{ borderRadius: "4px", rotate: rot, left: 0, bottom: 0 }}
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 0.2, scale: 1 }}
+              transition={{ delay: 0.5 + i * 0.15, ...springConfigs.bouncy }}
+            />
+          ))}
+        </div>
+      </section>
 
       {/* Free Trial */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-4xl px-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" as const }}
-            className="text-center p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-accent/10 to-primary/5 border-2 border-accent/20"
-          >
-            <span className="inline-block px-4 py-1 bg-accent text-secondary text-xs font-bold rounded-full mb-4">
-              まずはお試し
-            </span>
-            <h3 className="font-display text-3xl sm:text-4xl font-bold text-secondary">
-              初回無料<span className="text-primary">1時間</span>
-            </h3>
-            <p className="mt-4 text-text-secondary">
-              まずは無料体験でディーラーの世界を覗いてみませんか？
-            </p>
-            <div className="mt-8">
-              <CTAButton href={SNS_LINKS.line} label="無料体験を予約する" variant="line" external />
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* Courses */}
-      <section className="py-20 bg-bg-light">
-        <div className="mx-auto max-w-4xl px-4">
-          <SectionTitle enTitle="COURSES" title="コース一覧" />
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
-            {courses.map((course, i) => (
-              <AnimatedCard key={i} delay={i * 0.1} className="p-6 text-center">
-                <span className="text-4xl block mb-4">{course.emoji}</span>
-                <h3 className="text-lg font-bold text-secondary">{course.name}</h3>
-                <p className="font-display text-3xl font-bold text-primary mt-3">{course.price}</p>
-                <p className="text-sm text-text-muted mt-2">{course.duration}</p>
-              </AnimatedCard>
-            ))}
+      <WaveDivider variant="wave" fillColor="var(--color-paper)" bgColor="var(--color-cream)" />
+      <StorySection bg="paper" layout="textLeft">
+        <div>
+          <ChapterHeading titleEn="FREE TRIAL" titleJp="初回無料体験" />
+          <p className="text-cocoa-sub leading-relaxed">まずは無料体験でディーラーの世界を覗いてみませんか？1時間の体験でカード技術の基礎を学べます。</p>
+          <div className="mt-6">
+            <StoryButton href={SNS_LINKS.line} label="無料体験を予約する" variant="line" external icon="💬" size="lg" />
           </div>
         </div>
-      </section>
+        <ScrollReveal type="dealCard">
+          <ContentCard variant="polaroid">
+            <div className="text-center py-6">
+              <span className="inline-block px-4 py-1 bg-gold text-cocoa text-xs font-bold mb-4" style={{ borderRadius: "4px 8px 6px 10px" }}>まずはお試し</span>
+              <p className="font-display-en font-black text-deep text-4xl md:text-5xl">FREE</p>
+              <p className="text-sm text-cocoa-sub mt-2">初回1時間 無料体験</p>
+            </div>
+          </ContentCard>
+        </ScrollReveal>
+      </StorySection>
+
+      {/* Courses — 各カード異なるバリアント */}
+      <WaveDivider variant="tornPaper" fillColor="var(--color-cream)" bgColor="var(--color-paper)" />
+      <StorySection bg="cream" layout="staggered">
+        <ChapterHeading titleEn="COURSES" titleJp="コース一覧" align="center" />
+        <div className="flex flex-wrap justify-center gap-6 mt-8">
+          {courses.map((course, i) => {
+            const variants: Array<"tilted" | "stacked" | "torn"> = ["tilted", "stacked", "torn"];
+            return (
+              <motion.div
+                key={course.name}
+                className="w-full sm:w-[calc(33%-16px)] min-w-[240px]"
+                initial={{ opacity: 0, y: 40, rotate: course.tilt + 5 }}
+                whileInView={{ opacity: 1, y: 0, rotate: course.tilt }}
+                viewport={{ once: true }}
+                transition={{ delay: exponentialStagger(i, 0.12), ...springConfigs.gentle }}
+              >
+                <ContentCard variant={variants[i]} tiltDegree={course.tilt}>
+                  <div className="text-center">
+                    <span className="text-4xl block mb-3">{course.emoji}</span>
+                    <h3 className="font-display-jp text-lg text-cocoa">{course.name}</h3>
+                    <p className="font-display-en font-black text-2xl text-rose mt-3">{course.price}</p>
+                    <p className="text-xs text-cocoa-muted mt-2">{course.duration}</p>
+                  </div>
+                </ContentCard>
+              </motion.div>
+            );
+          })}
+        </div>
+      </StorySection>
 
       {/* Discounts */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-3xl px-4">
-          <SectionTitle enTitle="DISCOUNT" title="セット割引" />
-          <div className="space-y-4">
-            {discounts.map((d, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: i * 0.1, duration: 0.5, ease: "easeOut" as const }}
-                className="flex items-center justify-between p-5 rounded-xl bg-bg-light border border-primary/5"
-              >
-                <span className="font-bold text-secondary">{d.label}</span>
-                <span className="font-display text-lg font-bold text-primary">{d.detail}</span>
-              </motion.div>
-            ))}
-          </div>
+      <WaveDivider variant="suitBorder" fillColor="var(--color-paper)" bgColor="var(--color-cream)" />
+      <StorySection bg="paper" layout="centered">
+        <ChapterHeading titleEn="DISCOUNT" titleJp="セット割引" align="center" />
+        <div className="w-full max-w-lg space-y-4 mt-6">
+          {discounts.map((d, i) => (
+            <ScrollReveal key={i} type="clipWipe" delay={i * 0.15}>
+              <div className="flex items-center justify-between p-5 bg-cream" style={{ borderRadius: "8px 16px 12px 20px" }}>
+                <span className="font-bold text-cocoa">{d.label}</span>
+                <span className="font-display-en font-black text-lg text-rose">{d.detail}</span>
+              </div>
+            </ScrollReveal>
+          ))}
         </div>
-      </section>
+      </StorySection>
 
       {/* CTA */}
-      <section className="py-20 bg-bg-cream">
-        <div className="mx-auto max-w-3xl px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" as const }}
-          >
-            <h2 className="font-display text-2xl sm:text-3xl font-bold text-secondary mb-4">
-              お問い合わせ
+      <section className="bg-deep py-16 md:py-20">
+        <div className="max-w-3xl mx-auto px-5 text-center">
+          <ScrollReveal type="scaleFromCorner">
+            <h2 className="font-display-en font-black text-paper" style={{ fontSize: "clamp(1.8rem, 5vw, 3rem)" }}>
+              Become a dealer
             </h2>
-            <p className="text-text-secondary mb-8">
-              お試し無料体験・各コース受講のご相談はLINEからお気軽にどうぞ。
-            </p>
-            <CTAButton href={SNS_LINKS.line} label="LINEで相談する" variant="line" external />
-          </motion.div>
+            <p className="font-display-jp text-paper/80 mt-2">お問い合わせはLINEからお気軽に</p>
+            <div className="mt-8">
+              <StoryButton href={SNS_LINKS.line} label="LINEで相談する" variant="line" external icon="💬" size="lg" />
+            </div>
+          </ScrollReveal>
         </div>
       </section>
     </>

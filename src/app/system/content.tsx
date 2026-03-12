@@ -2,17 +2,16 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PageHero } from "@/components/ui/PageHero";
-import { SectionTitle } from "@/components/ui/SectionTitle";
-import { AnimatedCard } from "@/components/ui/AnimatedCard";
-import { CTAButton } from "@/components/ui/CTAButton";
+import { StorySection } from "@/components/ui/StorySection";
+import { ChapterHeading } from "@/components/ui/ChapterHeading";
+import { ContentCard } from "@/components/ui/ContentCard";
+import { StoryButton } from "@/components/ui/StoryButton";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { WaveDivider } from "@/components/ui/WaveDivider";
 import { SNS_LINKS } from "@/lib/constants";
+import { springConfigs } from "@/lib/animations";
 
-type PriceItem = {
-  label: string;
-  price: string;
-  note?: string;
-};
+type PriceItem = { label: string; price: string; note?: string };
 
 const weekdayPrices: PriceItem[] = [
   { label: "エントリーフィー", price: "¥1,100", note: "入場料" },
@@ -34,116 +33,149 @@ export function SystemContent() {
 
   return (
     <>
-      <PageHero
-        enTitle="PRICE SYSTEM"
-        title="料金システム"
-        subtitle="目安 3,380円〜 で遊べます。初心者の方にはお得なビギナーセットもご用意。"
-      />
-
-      {/* Price Highlight */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-4xl px-4">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" as const }}
-            className="text-center p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/10"
+      {/* Opening — 巨大価格数字 */}
+      <section className="relative min-h-[70vh] flex items-center justify-center bg-cream overflow-hidden pt-20">
+        <div className="relative z-10 text-center px-5">
+          <motion.span
+            className="font-handwritten text-gold text-lg md:text-xl block mb-2"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
           >
-            <p className="text-sm font-medium text-primary mb-2">目安プレイ料金</p>
-            <p className="font-display text-5xl sm:text-6xl font-bold text-secondary">
-              ¥3,380<span className="text-2xl">〜</span>
-            </p>
-            <p className="mt-3 text-text-secondary text-sm">
-              エントリーフィー + 1ゲーム参加 + チップ追加1回 + ドリンクの場合
-            </p>
+            Price from
+          </motion.span>
+          <motion.div
+            className="font-display-en font-black text-deep leading-[0.85]"
+            style={{ fontSize: "clamp(4rem, 15vw, 12rem)" }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }}
+          >
+            ¥3,380
           </motion.div>
+          <motion.p
+            className="text-cocoa-sub mt-4 text-sm md:text-base"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+          >
+            エントリーフィー + 1ゲーム参加 + チップ追加1回 + ドリンクの場合
+          </motion.p>
+          <motion.p
+            className="font-display-jp text-cocoa mt-6"
+            style={{ fontSize: "clamp(1rem, 2.5vw, 1.5rem)" }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+          >
+            料金システム
+          </motion.p>
         </div>
+        {/* 装飾チップ */}
+        <motion.div
+          className="absolute right-[10%] top-[20%] w-20 h-20 rounded-full border-4 border-gold/20"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" as const }}
+        />
+        <motion.div
+          className="absolute left-[8%] bottom-[25%] w-12 h-12 rounded-full border-3 border-rose/15"
+          animate={{ rotate: -360 }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" as const }}
+        />
       </section>
 
-      {/* Tab Price Table */}
-      <section className="py-20 bg-bg-light">
-        <div className="mx-auto max-w-4xl px-4">
-          <SectionTitle enTitle="PRICING" title="料金表" />
+      {/* Price Table */}
+      <WaveDivider variant="wave" fillColor="var(--color-paper)" bgColor="var(--color-cream)" />
+      <StorySection bg="paper" layout="fullWidth">
+        <ChapterHeading titleEn="PRICING" titleJp="料金表" align="center" />
 
-          {/* Tabs */}
-          <div className="flex justify-center gap-2 mb-10">
-            {(["weekday", "weekend"] as const).map((t) => (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setTab(t)}
-                className={`px-6 py-3 rounded-full font-bold text-sm transition-all ${
-                  tab === t
-                    ? "bg-primary text-white shadow-lg shadow-primary/25"
-                    : "bg-white text-text-secondary hover:text-primary border border-primary/10"
-                }`}
-              >
-                {t === "weekday" ? "平日" : "土日祝"}
-              </button>
-            ))}
-          </div>
+        {/* Tabs */}
+        <div className="flex justify-center gap-3 mb-10">
+          {(["weekday", "weekend"] as const).map((t) => (
+            <motion.button
+              key={t}
+              type="button"
+              onClick={() => setTab(t)}
+              className={`px-6 py-3 font-bold text-sm transition-all ${
+                tab === t
+                  ? "bg-rose text-white shadow-[3px_3px_0_var(--color-rose-dark)]"
+                  : "bg-paper-mid text-cocoa-sub hover:text-cocoa"
+              }`}
+              style={{ borderRadius: "8px 16px 12px 20px" }}
+              whileHover={{ y: -2 }}
+              whileTap={{ scale: 0.97 }}
+              transition={springConfigs.snappy}
+            >
+              {t === "weekday" ? "平日" : "土日祝"}
+            </motion.button>
+          ))}
+        </div>
 
-          {/* Price List */}
+        {/* Price List */}
+        <div className="max-w-2xl mx-auto">
           <AnimatePresence mode="wait">
             <motion.div
               key={tab}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -16 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white rounded-2xl overflow-hidden border border-primary/5"
+              initial={{ opacity: 0, x: 20, rotate: 1 }}
+              animate={{ opacity: 1, x: 0, rotate: 0 }}
+              exit={{ opacity: 0, x: -20, rotate: -1 }}
+              transition={{ duration: 0.4, ...springConfigs.gentle }}
             >
-              {prices.map((item, i) => (
-                <div
-                  key={i}
-                  className={`flex items-center justify-between px-6 py-5 ${
-                    i !== prices.length - 1 ? "border-b border-gray-100" : ""
-                  }`}
-                >
-                  <div>
-                    <p className="font-bold text-secondary">{item.label}</p>
-                    {item.note && <p className="text-xs text-text-muted mt-0.5">{item.note}</p>}
+              <ContentCard variant="stacked">
+                {prices.map((item, i) => (
+                  <div
+                    key={i}
+                    className={`flex items-center justify-between py-4 ${
+                      i !== prices.length - 1 ? "border-b border-cream" : ""
+                    }`}
+                  >
+                    <div>
+                      <p className="font-bold text-cocoa text-sm md:text-base">{item.label}</p>
+                      {item.note && <p className="text-xs text-cocoa-muted mt-0.5">{item.note}</p>}
+                    </div>
+                    <p className="font-display-en font-black text-xl text-rose">{item.price}</p>
                   </div>
-                  <p className="font-display text-xl font-bold text-primary">{item.price}</p>
-                </div>
-              ))}
+                ))}
+              </ContentCard>
             </motion.div>
           </AnimatePresence>
         </div>
-      </section>
+      </StorySection>
 
       {/* Beginner Set */}
-      <section className="py-20 bg-white">
-        <div className="mx-auto max-w-4xl px-4">
-          <AnimatedCard className="p-8 sm:p-12 bg-gradient-to-br from-accent/5 to-primary/5 border-2 border-accent/20">
-            <div className="text-center">
-              <span className="inline-block px-4 py-1 bg-accent text-secondary text-xs font-bold rounded-full mb-4">
+      <WaveDivider variant="tornPaper" fillColor="var(--color-cream)" bgColor="var(--color-paper)" />
+      <StorySection bg="cream" layout="textLeft">
+        <div>
+          <ChapterHeading titleEn="BEGINNER SET" titleJp="ポーカービギナーセット" />
+          <ScrollReveal type="clipWipe">
+            <p className="text-cocoa-sub leading-relaxed">
+              初心者限定テーブルで40〜90分プレイ可能。
+              ルール説明からスタートするので、まったくの初心者でも安心です。
+            </p>
+          </ScrollReveal>
+          <div className="mt-6">
+            <StoryButton href={SNS_LINKS.line} label="LINEで予約する" variant="line" external icon="💬" size="lg" />
+          </div>
+        </div>
+        <ScrollReveal type="dealCard" delay={0.2}>
+          <ContentCard variant="polaroid">
+            <div className="text-center py-6">
+              <span className="inline-block px-4 py-1 bg-gold text-cocoa text-xs font-bold mb-4" style={{ borderRadius: "4px 8px 6px 10px" }}>
                 初心者限定
               </span>
-              <h3 className="font-display text-2xl sm:text-3xl font-bold text-secondary">
-                ポーカービギナーセット
-              </h3>
-              <p className="font-display text-4xl sm:text-5xl font-bold text-primary mt-4">
+              <p className="font-display-en font-black text-deep" style={{ fontSize: "clamp(2.5rem, 6vw, 4rem)" }}>
                 ¥3,500
               </p>
-              <p className="mt-4 text-text-secondary leading-relaxed">
-                初心者限定テーブルで40〜90分プレイ可能。
-                <br />
-                ルール説明からスタートするので、まったくの初心者でも安心です。
-              </p>
-              <div className="mt-8">
-                <CTAButton href={SNS_LINKS.line} label="LINEで予約する" variant="line" external />
-              </div>
+              <p className="text-sm text-cocoa-sub mt-2">ルール説明 + テーブルプレイ</p>
             </div>
-          </AnimatedCard>
-        </div>
-      </section>
+          </ContentCard>
+        </ScrollReveal>
+      </StorySection>
 
       {/* Note */}
-      <section className="py-16 bg-bg-cream">
-        <div className="mx-auto max-w-3xl px-4 text-center">
-          <p className="text-xs text-text-muted">
+      <section className="bg-paper-mid py-10">
+        <div className="max-w-3xl mx-auto px-5 text-center">
+          <p className="text-xs text-cocoa-muted leading-relaxed">
             ※料金は全て税込です。※ゲーム内容や時間帯によって料金が異なる場合があります。
             <br />
             ※当店はアミューズメント施設です。換金・景品交換は一切行っておりません。
