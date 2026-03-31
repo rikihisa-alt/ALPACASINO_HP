@@ -77,13 +77,6 @@
 
     section[id] {
       scroll-margin-top: 72px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .hero, .footer {
-      position: relative;
-      z-index: 1;
     }
 
     /* ---- Navigation ---- */
@@ -713,60 +706,59 @@
       .price-amount .text { transform: none !important; }
     }
 
-    /* ---- Scattered Photo Background ---- */
-    .photo-scatter {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      pointer-events: none;
+    /* ---- Section Photo Backgrounds ---- */
+    .section-bg {
+      position: relative;
       overflow: hidden;
     }
 
-    .photo-scatter img {
+    .section-bg::after {
+      content: '';
       position: absolute;
-      opacity: 0.06;
-      object-fit: cover;
-      border-radius: 4px;
-      filter: grayscale(30%) contrast(0.9);
-      transition: opacity 0.6s ease;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.07;
+      filter: grayscale(20%);
+      pointer-events: none;
+      z-index: 0;
     }
 
-    /* Each photo gets unique placement via inline styles + nth-child sizing */
-    .photo-scatter img:nth-child(4n+1) { width: 220px; height: 160px; }
-    .photo-scatter img:nth-child(4n+2) { width: 180px; height: 180px; }
-    .photo-scatter img:nth-child(4n+3) { width: 260px; height: 170px; }
-    .photo-scatter img:nth-child(4n)   { width: 200px; height: 200px; }
+    .section-bg > * {
+      position: relative;
+      z-index: 1;
+    }
 
-    @media (max-width: 768px) {
-      .photo-scatter img:nth-child(4n+1) { width: 130px; height: 95px; }
-      .photo-scatter img:nth-child(4n+2) { width: 110px; height: 110px; }
-      .photo-scatter img:nth-child(4n+3) { width: 150px; height: 100px; }
-      .photo-scatter img:nth-child(4n)   { width: 120px; height: 120px; }
-      .photo-scatter img { opacity: 0.04; }
+    /* Each section gets a different photo */
+    .hero.section-bg::after {
+      background-image: url('https://static.wixstatic.com/media/9635ef_ebd0b97dad114d7181a1c49ca528107a~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_80,enc_avif,quality_auto/img.jpg');
+      opacity: 0.09;
+    }
+
+    .about.section-bg::after {
+      background-image: url('https://static.wixstatic.com/media/9635ef_500a056ac4f740758489e533069c4b5b~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_80,enc_avif,quality_auto/img.jpg');
+    }
+
+    .price.section-bg::after {
+      background-image: url('https://static.wixstatic.com/media/9635ef_04fc841b3670422aa0011ac613ae2c8e~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_80,enc_avif,quality_auto/img.jpg');
+    }
+
+    .visit.section-bg::after {
+      background-image: url('https://static.wixstatic.com/media/9635ef_adb22b4bfbf54530bbdc60f2c2416fc5~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_80,enc_avif,quality_auto/img.jpg');
+    }
+
+    .access.section-bg::after {
+      background-image: url('https://static.wixstatic.com/media/9635ef_f114e4877a074e90987764fc97fd03af~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_80,enc_avif,quality_auto/img.jpg');
+    }
+
+    .footer.section-bg::after {
+      background-image: url('https://static.wixstatic.com/media/9635ef_3eb65c999c0648c6aecf031eeaaac888~mv2.jpg/v1/fill/w_1200,h_800,al_c,q_80,enc_avif,quality_auto/img.jpg');
+      opacity: 0.05;
     }
   </style>
 </head>
 <body>
-
-  <!-- Scattered Gallery Photos Background -->
-  <div class="photo-scatter" aria-hidden="true">
-    <img src="https://static.wixstatic.com/media/9635ef_adb22b4bfbf54530bbdc60f2c2416fc5~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:2%;left:5%;transform:rotate(-8deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_500a056ac4f740758489e533069c4b5b~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:8%;right:3%;transform:rotate(5deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_ebd0b97dad114d7181a1c49ca528107a~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:18%;left:60%;transform:rotate(-3deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_f114e4877a074e90987764fc97fd03af~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:25%;left:15%;transform:rotate(7deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_04fc841b3670422aa0011ac613ae2c8e~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:32%;right:12%;transform:rotate(-6deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_3eb65c999c0648c6aecf031eeaaac888~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:40%;left:2%;transform:rotate(4deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_e1566dda10234712aaec892332ca8e1d~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:48%;left:45%;transform:rotate(-10deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_02b64c52ab2444e196b414d8f483037c~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:55%;right:5%;transform:rotate(3deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_82a9f08d1190422dacc5dae88ef925fb~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:62%;left:20%;transform:rotate(-5deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_c0412c168e164b569d438dec73423d6c~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:70%;right:25%;transform:rotate(8deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_d4ce6ee834d74731b3b81315285b9895~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:75%;left:8%;transform:rotate(-4deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_1fe66ab173d84907a383c210a6c01eec~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:82%;right:8%;transform:rotate(6deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_0de26c63a24f430d843b2ffd74cbe61a~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:88%;left:50%;transform:rotate(-7deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_0b47c6f34a67456b9960c6a786b4f497~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:30%;left:75%;transform:rotate(9deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_4dd68b56f7c14bd3a7ed8ef787a2f87b~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:92%;left:10%;transform:rotate(-3deg)">
-    <img src="https://static.wixstatic.com/media/9635ef_ae1142ee14ec454d8ed28d7fb63ff9b9~mv2.jpg/v1/fill/w_400,h_400,al_c,q_60,enc_avif,quality_auto/img.jpg" alt="" loading="lazy" style="top:58%;left:70%;transform:rotate(5deg)">
-  </div>
 
   <!-- Navigation -->
   <header class="nav">
@@ -797,7 +789,7 @@
   <main>
 
     <!-- Hero -->
-    <section class="hero">
+    <section class="hero section-bg">
       <div class="container">
         <p class="hero-label">大阪・心斎橋</p>
         <h1 class="hero-title">
@@ -813,7 +805,7 @@
     </section>
 
     <!-- About -->
-    <section id="about" class="about">
+    <section id="about" class="about section-bg">
       <div class="container">
         <h2 class="about-heading scroll-reveal">
           <span class="text">知らないまま、どうぞ。</span>
@@ -830,7 +822,7 @@
     </section>
 
     <!-- Price -->
-    <section id="price" class="price">
+    <section id="price" class="price section-bg">
       <div class="container">
         <p class="price-label">ENTRY</p>
         <div class="price-amount scroll-reveal">
@@ -844,7 +836,7 @@
     </section>
 
     <!-- Visit -->
-    <section id="visit" class="visit">
+    <section id="visit" class="visit section-bg">
       <div class="container">
         <h2 class="visit-heading">はじめての方へ</h2>
         <div class="steps">
@@ -877,7 +869,7 @@
     </section>
 
     <!-- Access -->
-    <section id="access" class="access">
+    <section id="access" class="access section-bg">
       <div class="container">
         <h2 class="access-title">ACCESS</h2>
         <div class="access-grid">
@@ -921,7 +913,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="footer">
+  <footer class="footer section-bg">
     <div class="container">
       <div class="footer-inner">
         <div class="footer-logo">ALPACASINO</div>
