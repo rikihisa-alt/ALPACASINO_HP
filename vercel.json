@@ -1,3 +1,5 @@
 {
-  "framework": "nextjs"
+  "framework": null,
+  "buildCommand": "mkdir -p _site && cp index.html _site/",
+  "outputDirectory": "_site"
 }
