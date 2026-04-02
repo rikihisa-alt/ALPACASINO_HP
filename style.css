@@ -79,10 +79,11 @@ section[id] {
 }
 
 .nav.scrolled {
-  background: rgba(245, 240, 232, 0.92);
+  background: rgba(245, 240, 232, 0.95);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom-color: var(--border);
+  box-shadow: 0 1px 8px rgba(0,0,0,0.04);
 }
 
 .nav.menu-open {
@@ -376,7 +377,7 @@ section[id] {
 
 /* ---- About ---- */
 .about {
-  padding: clamp(80px, 12vw, 160px) 0;
+  padding: clamp(56px, 8vw, 100px) 0;
 }
 
 .about-heading {
@@ -422,7 +423,7 @@ section[id] {
 .price {
   background: var(--green);
   color: var(--bg);
-  padding: clamp(72px, 11vw, 148px) 0;
+  padding: clamp(56px, 8vw, 100px) 0;
   text-align: center;
 }
 
@@ -476,7 +477,7 @@ section[id] {
 
 /* ---- Visit ---- */
 .visit {
-  padding: clamp(80px, 12vw, 160px) 0;
+  padding: clamp(56px, 8vw, 100px) 0;
 }
 
 .visit-heading {
@@ -530,7 +531,7 @@ section[id] {
 
 /* ---- Access ---- */
 .access {
-  padding: clamp(80px, 12vw, 160px) 0;
+  padding: clamp(56px, 8vw, 100px) 0;
   border-top: 1px solid var(--border);
 }
 
